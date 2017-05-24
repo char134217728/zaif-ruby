@@ -137,6 +137,10 @@ module Zaif
             return json
         end
 
+        def get_trade_history(option = {})
+            json = post_ssl(@zaif_trade_url, "trade_history", option)
+            json
+        end
         def get_deposit_history(ccy = "jpy")
             json = post_ssl(@zaif_trade_url, "deposit_history", {"currency" => ccy})
             # Convert to datetime
