@@ -137,7 +137,7 @@ module Zaif
             return json
         end
 
-        def deposit_history(ccy = "jpy")
+        def get_deposit_history(ccy = "jpy")
             json = post_ssl(@zaif_trade_url, "deposit_history", {"currency" => ccy})
             # Convert to datetime
             json.each do|k, v|
@@ -148,7 +148,7 @@ module Zaif
         end
 
 
-        def withdraw_history(ccy = "jpy")
+        def get_withdraw_history(ccy = "jpy")
             json = post_ssl(@zaif_trade_url, "withdraw_history", {"currency" => ccy})
             # Convert to datetime
             json.each do|k, v|
