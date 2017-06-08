@@ -141,25 +141,29 @@ module Zaif
             json = post_ssl(@zaif_trade_url, "trade_history", option)
             json
         end
-        def get_deposit_history(ccy = "jpy")
-            json = post_ssl(@zaif_trade_url, "deposit_history", {"currency" => ccy})
-            # Convert to datetime
-            json.each do|k, v|
-                v["datetime"] = Time.at(v["timestamp"].to_i)
-            end
+        def get_deposit_history(ccy = "jpy", option = {})
+          _option = option.dup
+          _option["currency"] = ccy
+          json = post_ssl(@zaif_trade_url, "deposit_history", _option)
+          # Convert to datetime
+          json.each do|k, v|
+            v["datetime"] = Time.at(v["timestamp"].to_i)
+          end
 
-            return json
+          return json
         end
 
 
-        def get_withdraw_history(ccy = "jpy")
-            json = post_ssl(@zaif_trade_url, "withdraw_history", {"currency" => ccy})
-            # Convert to datetime
-            json.each do|k, v|
-                v["datetime"] = Time.at(v["timestamp"].to_i)
-            end
+        def get_withdraw_history(ccy = "jpy", option = {})
+          _option = option.dup
+          _option["currency"] = ccy
+          json = post_ssl(@zaif_trade_url, "withdraw_history", _option)
+          # Convert to datetime
+          json.each do|k, v|
+            v["datetime"] = Time.at(v["timestamp"].to_i)
+          end
 
-            return json
+          return json
         end
 
         #
@@ -218,8 +222,8 @@ module Zaif
 
                 https = Net::HTTP.new(uri.host, uri.port)
                 https.use_ssl = true
-                https.open_timeout = 5
-                https.read_timeout = 15
+                https.open_timeout = 100
+                https.read_timeout = 100
                 https.verify_mode = OpenSSL::SSL::VERIFY_PEER
                 https.verify_depth = 5
 
